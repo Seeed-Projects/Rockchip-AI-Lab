@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Current selected chip
-    let currentChip = 'rk3588'; // Default to rk3588
+    let currentChip = 'rk3568'; // Default to rk3568
 
     // Page navigation
     const navLinks = document.querySelectorAll('.nav-link');
@@ -41,8 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (submenu.style.display === 'block') {
                         submenu.style.display = 'none';
                     } else {
-                        // Load directory content first
-                        loadDirectoryContent(targetPage);
                         submenu.style.display = 'block';
                     }
                 }
@@ -81,46 +79,110 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Chip selection
-    const chipButtons = document.querySelectorAll('.chip-btn');
+    // Chip folder selection
+    const chipFolders = document.querySelectorAll('.chip-folder');
 
-    chipButtons.forEach(button => {
-        button.addEventListener('click', function() {
+    chipFolders.forEach(folder => {
+        folder.addEventListener('click', function(e) {
+            e.preventDefault();
+
             const chipType = this.getAttribute('data-chip');
-
-            // Update active chip button
-            chipButtons.forEach(btn => {
-                btn.classList.remove('active-chip');
-            });
-            this.classList.add('active-chip');
+            const targetPage = this.closest('.sub-menu').id.replace('-submenu', '');
 
             // Update current chip
             currentChip = chipType;
 
-            // Reload current submenu if it's open
-            const activeNav = document.querySelector('.nav-link.active-page');
-            const targetPage = activeNav.getAttribute('data-page');
-            if (targetPage !== 'home') {
-                const submenu = document.getElementById(`${targetPage}-submenu`);
-                if (submenu && submenu.style.display === 'block') {
-                    loadDirectoryContent(targetPage);
+            // Toggle submenu visibility for this chip
+            const chipSubmenu = document.getElementById(`${targetPage}-${chipType}-submenu`);
+            if (chipSubmenu) {
+                // Hide all other chip submenus in this page
+                document.querySelectorAll(`#${targetPage}-submenu .chip-submenu`).forEach(menu => {
+                    if (menu !== chipSubmenu) {
+                        menu.style.display = 'none';
+                    }
+                });
+
+                // Toggle current chip submenu
+                if (chipSubmenu.style.display === 'block') {
+                    chipSubmenu.style.display = 'none';
+                } else {
+                    // Load directory content for this chip and page
+                    loadDirectoryContent(targetPage, chipType);
+                    chipSubmenu.style.display = 'block';
                 }
             }
         });
     });
 
+    // Function to get static file list as fallback
+    function getStaticFileList(page) {
+        let mdFiles = [];
+
+        switch(page) {
+            case 'cv':
+                mdFiles = ['index.md', 'image-recognition.md', 'object-detection.md', 'scene-understanding.md'];
+                break;
+            case 'llm':
+                mdFiles = ['index.md', 'model-optimization.md', 'hardware-acceleration.md', 'edge-deployment.md'];
+                break;
+            case 'vlm':
+                mdFiles = ['index.md', 'multimodal-understanding.md', 'cross-modal-learning.md', 'efficient-architectures.md'];
+                break;
+            case 'ui':
+                mdFiles = ['index.md', 'ai-enhanced-interfaces.md', 'responsive-design.md', 'performance-optimization.md'];
+                break;
+            default:
+                mdFiles = ['index.md'];
+        }
+
+        return mdFiles;
+    }
+
+    // Function to generate directory HTML from a list of files
+    function generateDirectoryHtmlFromList(mdFiles) {
+        let html = '';
+        mdFiles.forEach(file => {
+            const displayName = file.replace('.md', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            html += `<a href="#" class="md-link" data-md-file="${file}">${displayName}</a>`;
+        });
+
+        return html;
+    }
+
     // Function to load directory content
-    async function loadDirectoryContent(page) {
-        const contentContainer = document.getElementById(`${page}-submenu`);
+    async function loadDirectoryContent(page, chip = currentChip) {
+        const contentContainer = document.getElementById(`${page}-${chip}-submenu`);
         if (!contentContainer) return;
 
         try {
             // Show loading indicator
             contentContainer.innerHTML = '<a href="#" class="loading">Loading...</a>';
 
-            // Fetch directory listing (in a real implementation, this would be handled by the server)
-            // For now, we'll simulate the directory structure
-            const directoryHtml = generateDirectoryHtml(page);
+            // Try to fetch directory listing from the global chip index file
+            const response = await fetch(`content/${chip}.json`);
+
+            let mdFiles = [];
+            if (response.ok) {
+                try {
+                    // If the global index file exists, get the list for the specific page
+                    const indexData = await response.json();
+                    if (indexData && indexData[page] && Array.isArray(indexData[page])) {
+                        mdFiles = indexData[page];
+                    } else {
+                        console.warn(`Invalid index file format for ${chip}, using fallback`);
+                        mdFiles = getStaticFileList(page);
+                    }
+                } catch (parseError) {
+                    console.warn(`Error parsing ${chip}.json, using fallback:`, parseError);
+                    mdFiles = getStaticFileList(page);
+                }
+            } else {
+                // Fallback to static directory structure if global index doesn't exist
+                mdFiles = getStaticFileList(page);
+            }
+
+            // Generate directory HTML based on the actual files
+            const directoryHtml = generateDirectoryHtmlFromList(mdFiles);
 
             // Display the directory
             contentContainer.innerHTML = directoryHtml;
@@ -137,16 +199,21 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         } catch (error) {
             console.error(`Error loading ${page} directory:`, error);
-            contentContainer.innerHTML = `<a href="#" class="error">Directory for ${page.toUpperCase()} is not available.</a>`;
+            // Fallback to static directory structure
+            const directoryHtml = generateDirectoryHtml(page, chip);
+            contentContainer.innerHTML = directoryHtml;
         }
     }
 
     // Function to generate directory HTML
-    function generateDirectoryHtml(page) {
+    function generateDirectoryHtml(page, chip) {
         // This would normally fetch from the server
         // For now, we'll create a static directory structure based on what we know exists
+        // In a real implementation, you would fetch the actual directory listing from the server
         let mdFiles = [];
 
+        // For demonstration purposes, we'll use the same files for both chips
+        // but in a real implementation, you would have different files for each chip
         switch(page) {
             case 'cv':
                 mdFiles = ['index.md', 'image-recognition.md', 'object-detection.md', 'scene-understanding.md'];

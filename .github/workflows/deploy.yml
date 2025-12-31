@@ -7,6 +7,9 @@ on:
       - 'src/**'
       - 'package*.json'
       - 'build.js'
+  schedule:
+    # 每天 UTC 时间 2 点运行 (相当于北京时间晚上 10 点)
+    - cron: '0 2 * * *'
   workflow_dispatch:  # 允许手动触发工作流
 
 jobs:
@@ -38,7 +41,7 @@ jobs:
         path: ./public
 
     - name: Deploy to GitHub Pages
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       uses: actions/deploy-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
