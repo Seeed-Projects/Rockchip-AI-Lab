@@ -1,17 +1,19 @@
 /* Global Styles */
 :root {
-    --primary-color: #0066cc;
-    --primary-dark: #0052a3;
-    --secondary-color: #00c896;
-    --background-color: #f8f9fa;
-    --sidebar-bg: #0a192f;
+    --primary-color: #4a7c59;
+    --primary-light: #8d9f87;
+    --primary-dark: #2d503a;
+    --secondary-color: #8bc34a;
+    --accent-color: #c8e6c9;
+    --background-color: #f5f9f5;
+    --sidebar-bg: #2e4b3c;
     --card-bg: #ffffff;
-    --text-primary: #1a202c;
+    --text-primary: #2d3748;
     --text-secondary: #4a5568;
-    --border-color: #e2e8f0;
-    --hover-bg: #edf2f7;
-    --chip-rk3568: #00a896;
-    --chip-rk1820: #e74c3c;
+    --border-color: #c8e6c9;
+    --hover-bg: #e8f5e9;
+    --chip-rk3568: #66bb6a;
+    --chip-rk1820: #ffb74d;
 }
 
 * {
@@ -33,7 +35,7 @@ body {
 .chip-folder {
     display: flex;
     align-items: center;
-    color: #cbd5e0;
+    color: #e8f5e9;
     text-decoration: none;
     padding: 0.7rem 1.5rem;
     transition: all 0.3s ease;
@@ -42,41 +44,57 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
+    position: relative;
+    overflow: hidden;
 }
 
+.chip-folder::before {
+    content: '>';
+    margin-right: 10px;
+    font-size: 1rem;
+    color: var(--secondary-color);
+    transition: transform 0.3s ease;
+}
+
+.chip-folder:hover::before {
+    transform: translateX(3px);
+}
 
 .chip-folder[data-chip="rk3568"] {
-    background: rgba(0, 168, 150, 0.15);
+    background: linear-gradient(to right, rgba(102, 187, 106, 0.2), transparent);
+    border-left: 3px solid var(--chip-rk3568);
 }
 
 .chip-folder[data-chip="rk1820"] {
-    background: rgba(231, 76, 60, 0.15);
+    background: linear-gradient(to right, rgba(255, 183, 77, 0.2), transparent);
+    border-left: 3px solid var(--chip-rk1820);
 }
 
 .chip-folder:hover {
     transform: translateX(5px);
+    background: linear-gradient(to right, rgba(102, 187, 106, 0.3), transparent) !important;
 }
 
 .chip-folder[data-chip="rk3568"]:hover {
-    background: rgba(0, 168, 150, 0.3);
+    background: linear-gradient(to right, rgba(102, 187, 106, 0.3), transparent);
 }
 
 .chip-folder[data-chip="rk1820"]:hover {
-    background: rgba(231, 76, 60, 0.3);
+    background: linear-gradient(to right, rgba(255, 183, 77, 0.3), transparent);
 }
 
 .chip-submenu {
-    background: rgba(30, 41, 59, 0.95);
+    background: rgba(46, 75, 60, 0.85);
     padding: 0.6rem 0;
     border-radius: 6px;
     margin: 0.3rem 0.8rem 0.5rem 1.8rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(139, 195, 74, 0.2);
 }
 
 .chip-submenu a {
     display: block;
-    color: #94a3b8;
+    color: #a0d2b8;
     text-decoration: none;
     padding: 0.6rem 1.5rem;
     transition: all 0.3s ease;
@@ -86,7 +104,7 @@ body {
 }
 
 .chip-submenu a:hover {
-    background: rgba(74, 85, 104, 0.3);
+    background: rgba(102, 187, 106, 0.25);
     color: white;
     transform: translateX(5px);
 }
@@ -107,11 +125,7 @@ body {
     box-shadow: 3px 0 15px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     transition: all 0.3s ease;
-    background: linear-gradient(to bottom, #0a192f, #0d1b2a);
-}
-
-.sidebar:hover {
-    overflow-y: auto;
+    background: linear-gradient(to bottom, #2e4b3c, #3d5d4d);
 }
 
 .nav-menu {
@@ -128,7 +142,7 @@ body {
 .nav-link {
     display: flex;
     align-items: center;
-    color: #a0aec0;
+    color: #cbd5e0;
     text-decoration: none;
     padding: 0.9rem 1.2rem;
     border-radius: 8px;
@@ -136,6 +150,8 @@ body {
     font-weight: 500;
     position: relative;
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0.2rem 0.8rem;
 }
 
 .nav-link::before {
@@ -145,7 +161,7 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(139, 195, 74, 0.2), transparent);
     transition: 0.5s;
 }
 
@@ -154,15 +170,17 @@ body {
 }
 
 .nav-link:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(139, 195, 74, 0.15);
     color: white;
     transform: translateX(5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .nav-link.active-page {
-    background: rgba(0, 102, 204, 0.2);
+    background: rgba(74, 124, 89, 0.3);
     color: white;
     border-left: 3px solid var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .nav-link.active-page::after {
@@ -174,19 +192,19 @@ body {
 
 /* Sub-menu for showing MD files */
 .sub-menu {
-    background: rgba(17, 24, 39, 0.9);
+    background: rgba(46, 75, 60, 0.95);
     padding: 0.8rem 0;
     border-radius: 8px;
     margin-top: 0.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     position: relative;
     z-index: 10;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(139, 195, 74, 0.2);
 }
 
 .sub-menu a {
     display: block;
-    color: #cbd5e0;
+    color: #a0d2b8;
     text-decoration: none;
     padding: 0.6rem 1.5rem;
     transition: all 0.3s ease;
@@ -196,7 +214,7 @@ body {
 }
 
 .sub-menu a:hover {
-    background: rgba(74, 85, 104, 0.3);
+    background: rgba(102, 187, 106, 0.2);
     color: white;
     transform: translateX(5px);
 }
@@ -214,7 +232,7 @@ body {
     padding: 2rem;
     overflow-y: auto;
     background: var(--card-bg);
-    background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+    background: linear-gradient(to bottom right, #ffffff, #f8faf5);
 }
 
 .page {
@@ -232,13 +250,13 @@ body {
 }
 
 .content h1 {
-    color: var(--sidebar-bg);
+    color: var(--primary-dark);
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: 0.8rem;
     margin-top: 0;
     font-size: 2.2rem;
     font-weight: 700;
-    background: linear-gradient(to right, var(--sidebar-bg), #334155);
+    background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -305,7 +323,7 @@ body {
 }
 
 #cv-content h1, #llm-content h1, #vlm-content h1, #ui-content h1 {
-    color: var(--sidebar-bg);
+    color: var(--primary-dark);
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: 0.8rem;
     margin-top: 0;
@@ -348,41 +366,44 @@ body {
 #cv-content strong, #llm-content strong, #vlm-content strong, #ui-content strong {
     font-weight: 600;
     color: var(--text-primary);
+    background: linear-gradient(to right, transparent 50%, var(--accent-color) 50%);
+    background-size: 4px 100%;
+    padding: 0 2px;
 }
 
 #cv-content em, #llm-content em, #vlm-content em, #ui-content em {
     font-style: italic;
     color: var(--text-secondary);
-    background-color: rgba(0, 102, 204, 0.05);
+    background-color: var(--accent-color);
     padding: 0 4px;
     border-radius: 3px;
 }
 
 #cv-content code, #llm-content code, #vlm-content code, #ui-content code {
-    background-color: #f1f5f9;
+    background-color: #e8f5e9;
     padding: 0.3rem 0.5rem;
     border-radius: 6px;
     font-family: 'Fira Code', 'Consolas', monospace;
     font-size: 0.95em;
-    color: #e74c3c;
-    border: 1px solid #e2e8f0;
+    color: var(--primary-dark);
+    border: 1px solid var(--border-color);
 }
 
 #cv-content pre, #llm-content pre, #vlm-content pre, #ui-content pre {
-    background-color: #0f172a;
-    color: #e2e8f0;
+    background-color: #f1f8e9;
+    color: var(--text-primary);
     padding: 1.2rem;
     border-radius: 8px;
     overflow-x: auto;
     margin: 1.5rem 0;
-    border: 1px solid #1e293b;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 #cv-content pre code, #llm-content pre code, #vlm-content pre code, #ui-content pre code {
     background: none;
     padding: 0;
-    color: #a7f3d0;
+    color: var(--primary-dark);
     border: none;
 }
 
@@ -390,11 +411,14 @@ body {
 #cv-content ol, #llm-content ol, #vlm-content ol, #ui-content ol {
     margin: 1.2rem 0;
     padding-left: 1.8rem;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 1.5rem;
 }
 
 #cv-content li, #llm-content li, #vlm-content li, #ui-content li {
     margin-bottom: 0.7rem;
     line-height: 1.7;
+    padding-left: 0.5rem;
 }
 
 /* Card-like styling for content sections */
@@ -403,14 +427,15 @@ body {
     border-radius: 12px;
     padding: 1.8rem;
     margin: 1.5rem 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(74, 124, 89, 0.1);
     border: 1px solid var(--border-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid var(--primary-color);
 }
 
 .content-section:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 16px rgba(74, 124, 89, 0.15);
 }
 
 /* Responsive adjustments */
