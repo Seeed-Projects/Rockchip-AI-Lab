@@ -1,0 +1,23 @@
+{
+  "name": "rockchip-ai-lab",
+  "version": "1.0.0",
+  "description": "Rockchip AI Lab website",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server public -o",
+    "build": "node build.js",
+    "dev": "nodemon --exec \"npm run build\" --watch src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "rockchip",
+    "ai",
+    "website"
+  ],
+  "author": "Rockchip AI Lab",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "nodemon": "^3.1.11"
+  }
+}
