@@ -32,10 +32,6 @@ Rockchip-AI-Lab/
 ├── src/                    # Source files
 │   ├── content/            # Content files organized by chip model and AI field
 │   │   ├── help/           # Help documentation
-│   │   │   ├── demo1.md    # Help demo page 1
-│   │   │   ├── demo2.md    # Help demo page 2
-│   │   │   ├── index.md    # Help main page
-│   │   │   └── quick-start.md # Help quick start page
 │   │   ├── rk1820/         # Content for RK1820 chip
 │   │   │   ├── cv/         # Computer Vision content
 │   │   │   ├── llm/        # Large Language Model content
@@ -63,7 +59,7 @@ Rockchip-AI-Lab/
 
 ## 🤝 Contribute
 
-Fork this project and run the project locally:
+Fork this project and run the project locally, You can add `.md` files under the corresponding directories to supplement the content.:
 
 >💡Note: Every time you modify the `src` folder, you need to run `npm run build` to rebuild.
 
